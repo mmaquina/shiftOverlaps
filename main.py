@@ -1,5 +1,9 @@
+class Employee(name):
+    self.name = name
+    self.shifts = []
+
 def dayToMinutes(day):
-    {'MO':0, 
+    return {'MO':0, 
     'TU': 1, 
     'WE': 2,
     'TH': 3,
@@ -18,8 +22,9 @@ def parseEmployee(line):
 def parseShifts(shifts):
     return shifts.split(',')
 
-def shiftInMinutes(shift):
+def shiftToMinutes(shift):
     hours = shift[2:].split('-')
+    print(hours)
     return (
         dayToMinutes(shift[0:2]) + hhmmToMinutes(hours[0]),
         dayToMinutes(shift[0:2]) + hhmmToMinutes(hours[1])
