@@ -66,14 +66,14 @@ if __name__ == '__main__':
 
         for i in range(len(employees) - 1):
             for j in range(i+1, len(employees)):
-                count = [employees[i].name + '-' + employees[j].name, 0 ] 
+                count = 0
                 for shift1 in employees[i].shifts:
                     for shift2 in employees[j].shifts:
                         if doShiftsOverlap(shift1, shift2):
-                            count[1] +=1 
+                            count += 1 
 
-                if count[1]>0:
-                    print(f"{count[0]}: {count[1]}")
+                if count:
+                    print(f"{employees[i].name}-{employees[j].name}: {count}")
 
         input_file.close()
 
