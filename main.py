@@ -1,4 +1,6 @@
 import sys
+BEGIN = 0
+END = 1
 
 class Employee():
 
@@ -42,18 +44,37 @@ def parseMultipleShifts(multipleShifts):
         shiftsInMinutes.append(shiftToMinutes(shift))
     return shiftsInMinutes
 
+def doShiftsOverlap(shift1, shift2):
+    if (shift1[BEGIN] > shift2[END]):
+        return False
+    elif (shift1[END] < shift2[BEGIN]):
+        return False
+    else:
+        return True
+
 employees=[]
 
-if len(sys.argv)<2:
-    print("Usage:\npython3 main.py input.txt")
-    exit(-1)
+if __name__ == '__main__':
+    if len(sys.argv)<2:
+        print("Usage:\npython3 main.py input.txt")
+        exit(-1)
 
-with open(sys.argv[1]) as input_file:
-    for line in input_file:
-        name, rest = parseEmployee(line)
-        employees.append(Employee(name, parseMultipleShifts(rest)))
+    with open(sys.argv[1]) as input_file:
+        for line in input_file:
+            name, rest = parseEmployee(line)
+            employees.append(Employee(name, parseMultipleShifts(rest)))
 
-    print (employees)
-    input_file.close()
+        for i in range(len(employees) - 1):
+            for j in range(i+1, len(employees)):
+                count = [employees[i].name + '-' + employees[j].name, 0 ] 
+                for shift1 in employees[i].shifts:
+                    for shift2 in employees[j].shifts:
+                        if doShiftsOverlap(shift1, shift2):
+                            count[1] +=1 
+
+                if count[1]>0:
+                    print(f"{count[0]}: {count[1]}")
+
+        input_file.close()
 
     

@@ -1,5 +1,5 @@
 import pytest
-from main import parseEmployee, parseShifts, hhmmToMinutes, shiftToMinutes, dayToMinutes
+from main import parseEmployee, parseShifts, hhmmToMinutes, shiftToMinutes, dayToMinutes, doShiftsOverlap
 
 @pytest.mark.parametrize(
     "input, expected, rest",
@@ -56,3 +56,17 @@ def test_hhmmToMinutes(input, expected):
 )
 def test_dayToMinutes(input, expected):
     assert dayToMinutes(input) == expected
+
+@pytest.mark.parametrize(
+    "shift1, shift2, expected",
+    [
+    ((1234, 3456), (2345, 4567), True),
+    ((2346, 3456), (2345, 4567), True),
+    ((1234, 3456), (3456, 4567), True),
+    ((1234, 3456), (1235, 3455), True),
+    ((12, 60), (2345, 4567), False),
+    ((2345, 4567), (12, 60), False)
+    ]
+)
+def test_doShiftsOverlap(shift1, shift2, expected):
+    assert doShiftsOverlap(shift1, shift2) == expected
