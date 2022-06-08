@@ -3,7 +3,7 @@ BEGIN = 0
 END = 1
 
 class Employee():
-
+    ''' TODO: could have an ID field to handle employees with same name '''
     def __init__(self, name, shifts):
         self.name = name
         self.shifts = shifts
@@ -11,7 +11,7 @@ class Employee():
     def __repr__(self):
         return f"Employee(name = {self.name}, shifts = {self.shifts}"
 
-def dayToMinutes(day):
+def day_to_minutes(day):
     return {'MO':0, 
     'TU': 1, 
     'WE': 2,
@@ -21,30 +21,30 @@ def dayToMinutes(day):
     'SU': 6
     }[day]*24*60
 
-def hhmmToMinutes(hhmm):
+def hhmm_to_minutes(hhmm):
     hour, minute = map(int, hhmm.split(':'))
     return (hour*60+minute)
 
-def parseEmployee(line):
+def parse_employee(line):
     return line.split('=')
 
-def parseShifts(shifts):
+def parse_shifts(shifts):
     return shifts.split(',')
 
-def shiftToMinutes(shift):
+def shift_to_minutes(shift):
     hours = shift[2:].split('-')
     return (
-        dayToMinutes(shift[0:2]) + hhmmToMinutes(hours[0]),
-        dayToMinutes(shift[0:2]) + hhmmToMinutes(hours[1])
+        day_to_minutes(shift[0:2]) + hhmm_to_minutes(hours[0]),
+        day_to_minutes(shift[0:2]) + hhmm_to_minutes(hours[1])
             )
 
-def parseMultipleShifts(multipleShifts):
-    shiftsInMinutes = []
-    for shift in parseShifts(multipleShifts):
-        shiftsInMinutes.append(shiftToMinutes(shift))
-    return shiftsInMinutes
+def parse_multiple_shifts(multiple_shifts):
+    shifts_in_minutes = []
+    for shift in parse_shifts(multiple_shifts):
+        shifts_in_minutes.append(shift_to_minutes(shift))
+    return shifts_in_minutes
 
-def doShiftsOverlap(shift1, shift2):
+def do_shifts_overlap(shift1, shift2):
     if (shift1[BEGIN] > shift2[END]):
         return False
     elif (shift1[END] < shift2[BEGIN]):
@@ -61,15 +61,15 @@ if __name__ == '__main__':
 
     with open(sys.argv[1]) as input_file:
         for line in input_file:
-            name, rest = parseEmployee(line)
-            employees.append(Employee(name, parseMultipleShifts(rest)))
+            name, rest = parse_employee(line)
+            employees.append(Employee(name, parse_multiple_shifts(rest)))
 
         for i in range(len(employees) - 1):
             for j in range(i+1, len(employees)):
                 count = 0
                 for shift1 in employees[i].shifts:
                     for shift2 in employees[j].shifts:
-                        if doShiftsOverlap(shift1, shift2):
+                        if do_shifts_overlap(shift1, shift2):
                             count += 1 
 
                 if count:
