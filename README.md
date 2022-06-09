@@ -18,13 +18,18 @@ ASTRID-RENE: 2
 
 ## Architecture
 The solution is divided into three layers.
+
 The first layer is responsible for reading the input file and parsing the data, to be stored locally in a list of employees. Employee is a class, which may be extended and used for other programs for the organization.
+
 Furthermore, the next layer uses a method of Employee in order to find all overlaps.
+
 Lastly, the final layer is responsifble for showing the result.
+
 Every layer is lightly coupled to the next, in order for the program to be able to accomdate changes in an indiviudual layer without impact on the others. For example: instead of printing to standard output, an html file could be generated, which would not affect the previous 2 layers. Or the input file format could change, and that would require changes in the first layer only.
 
 ### Writen for Python 3.8.10
 ### Usage: 
 $ python3 main.py input.txt
+
 ### To run tests: 
 $ pytest-3
