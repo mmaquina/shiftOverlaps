@@ -44,9 +44,6 @@ def hhmm_to_minutes(hhmm):
 def parse_employee(line):
     return line.split('=')
 
-def parse_shifts(shifts):
-    return shifts.split(',')
-
 def shift_to_minutes(shift):
     hours = shift[2:].split('-')
     return (
@@ -56,7 +53,7 @@ def shift_to_minutes(shift):
 
 def parse_multiple_shifts(multiple_shifts):
     shifts_in_minutes = []
-    for shift in parse_shifts(multiple_shifts):
+    for shift in multiple_shifts.split(','):
         shifts_in_minutes.append(shift_to_minutes(shift))
     return shifts_in_minutes
 
@@ -78,7 +75,7 @@ if __name__ == '__main__':
     with open(sys.argv[1]) as input_file:
         employees=[]
         for line in input_file:
-            name, shifts = parse_employee(line)
+            name, shifts = line.split('=')
             employees.append(Employee(name, parse_multiple_shifts(shifts)))
 
         for overlap in sorted(get_overlaps(employees)):

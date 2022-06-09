@@ -1,5 +1,5 @@
 import pytest
-from main import parse_employee, parse_shifts, hhmm_to_minutes, shift_to_minutes, day_to_minutes
+from main import parse_employee, hhmm_to_minutes, shift_to_minutes, day_to_minutes, Employee
 
 @pytest.mark.parametrize(
     "input, expected, rest",
@@ -11,15 +11,15 @@ from main import parse_employee, parse_shifts, hhmm_to_minutes, shift_to_minutes
 def test_parse_employee_gets_employee(input, expected, rest):
     assert parse_employee(input) == [expected, rest]
 
-@pytest.mark.parametrize(
-    "input, expected",
-    [
-    ('MO16:00-17:00,TU09:00-13:00',  ['MO16:00-17:00', 'TU09:00-13:00']),
-    ('MO16:00-17:00,TU09:00-13:00',  ['MO16:00-17:00', 'TU09:00-13:00']),
-    ]
-)
-def test_parse_shifts(input, expected):
-    assert parse_shifts(input) == expected
+# @pytest.mark.parametrize(
+#     "input, expected",
+#     [
+#     ('MO16:00-17:00,TU09:00-13:00',  ['MO16:00-17:00', 'TU09:00-13:00']),
+#     ('MO16:00-17:00,TU09:00-13:00',  ['MO16:00-17:00', 'TU09:00-13:00']),
+#     ]
+# )
+# def test_parse_shifts(input, expected):
+#     assert parse_shifts(input) == expected
 
 
 @pytest.mark.parametrize(
@@ -69,4 +69,5 @@ def test_day_to_minutes(input, expected):
 #     ]
 # )
 # def test_do_shifts_overlap(shift1, shift2, expected):
-#     assert do_shifts_overlap(shift1, shift2) == expected
+#     e = Employee("Coltrane", [])
+#     assert e.do_shifts_overlap(shift1, shift2) == expected
