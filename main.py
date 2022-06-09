@@ -60,9 +60,15 @@ def parse_multiple_shifts(multiple_shifts):
         shifts_in_minutes.append(shift_to_minutes(shift))
     return shifts_in_minutes
 
-
-
-employees=[]
+def get_overlaps(employees):
+    overlaps = []
+    for i in range(len(employees) - 1):
+        for j in range(i+1, len(employees)):
+            count = employees[i].count_shift_overlaps_with(employees[j])
+            if count:
+                overlaps.append(f"{employees[i].name}-{employees[j].name}: {count}")
+    return(overlaps)
+    
 
 if __name__ == '__main__':
     if len(sys.argv)<2:
@@ -70,15 +76,13 @@ if __name__ == '__main__':
         exit(-1)
 
     with open(sys.argv[1]) as input_file:
+        employees=[]
         for line in input_file:
             name, shifts = parse_employee(line)
             employees.append(Employee(name, parse_multiple_shifts(shifts)))
 
-        for i in range(len(employees) - 1):
-            for j in range(i+1, len(employees)):
-                count = employees[i].count_shift_overlaps_with(employees[j])
-                if count:
-                    print(f"{employees[i].name}-{employees[j].name}: {count}")
+        for overlap in sorted(get_overlaps(employees)):
+            print(overlap)
 
         input_file.close()
 
